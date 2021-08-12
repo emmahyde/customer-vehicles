@@ -1,0 +1,4 @@
+Ansel|Adams|a@adams.com|motorboat|Rushing Water|24’
+Steve|Irwin|steve@crocodiles.com|RV|G’Day For Adventure|32 ft
+Isatou|Ceesay|isatou@recycle.com|campervan|Plastic To Purses|20’
+Naomi|Uemura|n.uemura@gmail.com|bicycle|Glacier Glider|5 feet

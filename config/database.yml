@@ -1,15 +1,16 @@
-development:
+default: &default
   adapter: postgresql
   encoding: unicode
-  database: myapp_development
+  host: localhost
+  # host: db
+  username: postgres
+  password: password
   pool: 5
-  username: outdoorsy
-  password: password1
+
+development:
+  <<: *default
+  database: outdoorsy_development
 
 test:
-  adapter: postgresql
-  encoding: unicode
-  database: myapp_test
-  pool: 5
-  username: myapp
-  password: password1˙
+  <<: *default
+  database: outdoorsy_test
