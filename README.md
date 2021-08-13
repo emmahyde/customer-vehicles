@@ -4,6 +4,10 @@
 [![Coverage Badge](https://emmahyde.github.io/customer-vehicles/badge.svg)](https://github.com/emmahyde/customer-vehicles)
 
 ## How-To
+### Asciinema Walkthrough
+
+[![asciicast](https://asciinema.org/a/Kl1FpJGVhWdKjPat77kKVxqZY.svg)](https://asciinema.org/a/Kl1FpJGVhWdKjPat77kKVxqZY)
+
 ### Requirements
 You will need:
 - git
