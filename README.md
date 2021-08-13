@@ -42,9 +42,9 @@ Or view it on [a static site](https://documenter.getpostman.com/view/2221299/Tzz
 There are some clear opportunities for improvement here.
 - The Vehicle association makes DB queries that could be removed if a cache layer was implemented, or we could eager-load the associations in.
 - More sort options for Customers, sort options at all for Vehicles.
-- Expand the primary-vehicle functionality: right now the primary vehicle is only ever set the first time a vehicle is created for a customer. The intention here is to leave it very easily extendable, and the best way to do that is to support an association right off the bat, making some progress towards decoupling Customers and Vehicles.
-    - Add more fine-grain control around the response to the client, i.e. list all vehicles, not just primary. The "primary vehicle" for a customer is necessary in order to implement the initial requirement of sort on vehicle_type (where some vehicle must be the default), but leaves the door open to extendability down the line.
-- Better deletion practices: As of right now we could end up with bad data since we are not explicitly deleting associations upon destroying the parent Customer.
+- Expand the primary-vehicle functionality: right now the primary Vehicle is only ever set the first time a Vehicle is created for a Customer. The intention here is to leave it very easily extendable, and the best way to do that is to support an association right off the bat, making some progress towards decoupling Customers and Vehicles.
+    - Add more fine-grain control around the response to the client, for instance, listing all Vehicles associated with a Customer (since this API does support a 1:many relationship here), not just the primary. The "primary vehicle" for a customer is necessary in order to implement the initial requirement of sort Customers on vehicle_type (where some vehicle must be the default), but leaves the door open to extendability down the line.
+- Better deletion practices: As of right now we could end up with bad data since we are not explicitly deleting Vehicle associations upon destroying the parent Customer.
 - It isn't necessarily DRY, it could be better abstracted, but for ease of digestion I wanted to leave it pretty friendly.
-- Further test cases for edge cases and error handling, but as of right now it has 98.26% test coverage.
+- Further awareness of edge cases and coverage on error handling, but as of right now it has 98.26% test coverage.
 <img width="1618" alt="Screen Shot 2021-08-13 at 1 57 40 PM" src="https://user-images.githubusercontent.com/8183738/129400856-8d5c4590-a53b-478a-92f3-57255a9953cc.png">
