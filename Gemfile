@@ -22,7 +22,6 @@ group :development, :test do
   gem "timecop", "~> 0.9.4"
   gem "db-query-matchers", "~> 0.10.0"
   gem 'simplecov', "~> 0.21.2"
-  gem 'simplecov-shields-badge', "~> 0.1.0", require: false
 end
 
 group :development do
