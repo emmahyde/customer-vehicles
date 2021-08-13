@@ -54,6 +54,9 @@ There are some clear opportunities for improvement here.
 - Better deletion practices: As of right now we could end up with bad data since we are not explicitly deleting `Vehicle` associations upon destroying the parent `Customer`.
 - It isn't necessarily DRY, it could be better abstracted, but for ease of digestion I wanted to leave it pretty friendly.
 - Further awareness of edge cases and coverage on error handling, but as of right now it has 98.26% test coverage.
+
+See code coverage report at https://emmahyde.github.io/customer-vehicles.
+
 ```bash
 ╰─❯ docker-compose run web rspec
 Creating outdoorsy_web_run ... done
