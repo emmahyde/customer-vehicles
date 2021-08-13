@@ -3,9 +3,8 @@ require 'rails_helper'
 describe Vehicle, type: :model do
   let!(:customer) do
     Customer.create!({
-      first_name: 'Emma',
-      last_name: 'Hyde',
-      email: 'ehyde@null.com'
+      full_name: 'Derby Jones',
+      email:     'derbyjones@nullmailer.com'
     })
   end
 
@@ -14,7 +13,7 @@ describe Vehicle, type: :model do
       expect {
         Vehicle.create!(
           type: 'steamboat',
-          name: 'lollerroller',
+          name: 'St. Derby',
           length: 1,
           customer_id: customer.id
         )
@@ -27,7 +26,7 @@ describe Vehicle, type: :model do
     it 'sets primary to true if it is the first vehicle for the customer' do
       Vehicle.create!(
         type: 'steamboat',
-        name: 'lollerroller',
+        name: 'St. Derby',
         length: 1,
         customer_id: customer.id
       )

@@ -51,7 +51,7 @@ describe VehiclesController, type: :request do
       id = vehicle.id
       put "/vehicles/#{id}", params: {
         vehicle: {
-          name: 'Derby'
+          name: 'St. Derby Jones'
         }
       }
       expect(response.body).to eq vehicle.reload.to_json
@@ -60,7 +60,7 @@ describe VehiclesController, type: :request do
     it 'returns an error if id does not exist' do
       put "/vehicles/#{invalid_id}", params: {
         vehicle: {
-          name: 'Derby'
+          name: 'St. Derby Jones'
         }
       }
       expect(response.body).to eq "{\"error\":\"Couldn't find Vehicle with 'id'=#{invalid_id}\"}"

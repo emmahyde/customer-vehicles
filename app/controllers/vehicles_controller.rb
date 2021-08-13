@@ -22,9 +22,7 @@ class VehiclesController < ApplicationController
     vehicle.update!(vehicle_params)
     render json: vehicle.reload
 
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { "error" => e.message }
-  rescue ActiveRecord::RecordInvalid => e
+  rescue *ACTIVE_RECORD_EXS => e
     render json: { "error" => e.message }
   end
 

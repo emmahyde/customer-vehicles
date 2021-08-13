@@ -1,63 +1,53 @@
 class Customer < ApplicationRecord
-  attribute :id, :integer
-  attribute :name, :string
-  attribute :email, :string
+  attribute :id,         :integer
+  attribute :first_name, :string
+  attribute :last_name,  :string
+  attribute :name,       :string
+  attribute :email,      :string
 
   validates :email, presence: true, uniqueness: true
-  validates :name, presence: true
-  has_many :vehicles
-  has_one :vehicle, -> { where(primary: true) }
+  validates :first_name, :last_name, presence: true
+  has_many  :vehicles
+  has_one   :vehicle, -> { where(primary: true) }
 
   def attributes
     {
-      id: id,
-      name: name,
-      email: email,
+      id:         id,
+      full_name:  full_name,
+      email:      email,
       created_at: created_at,
       updated_at: updated_at,
-      vehicle: vehicle
+      vehicle:    vehicle
     }
   end
 
-  def merge_name(params)
-    if params[:first_name] == nil || params[:last_name] == nil
-      raise CustomerError, 'Input invalid: must provide first & last name'
-    end
-
-    params.merge(
-      name: [
-        params[:first_name],
-        params[:last_name]
-      ].join(' ').titleize
-    ).except(:first_name, :last_name)
+  def full_name
+    [first_name, last_name].compact.join(' ')
   end
 
-  def initialize(params)
-    super(merge_name(params))
+  def full_name=(value)
+    params = value.split(' ')
+    assign_attributes first_name: params[0], last_name: params[1]
   end
 
-  def update(params)
-    super(merge_name(params))
-  end
-
-  def update!(params)
-    super(merge_name(params))
-  end
-
+  alias :name :full_name
   class << self
 
     # file_create creates both customers
     # and a single associated vehicle from the given format
     def file_create(file)
       processed = []
+
       lines = if file.respond_to? :tempfile
-        File.read(file.tempfile)
-      elsif file.is_a? String
-        File.read(file)
-      end
+                File.read(file.tempfile)
+              elsif file.is_a? String
+                File.read(file)
+              end
+
       lines.split("\n").each do |line|
         processed << parse_customer(line)
       end
+
       processed
     end
 
@@ -65,12 +55,12 @@ class Customer < ApplicationRecord
 
     SPLIT_CRITERIA = /[|,]/
     HEADER = {
-      first_name:   0,
-      last_name:    1,
-      email:        2,
-      type:         3,
-      name:         4,
-      length:       5
+      first_name: 0,
+      last_name:  1,
+      email:      2,
+      type:       3,
+      name:       4,
+      length:     5
     }
 
     def parse_customer(line)
@@ -101,11 +91,11 @@ class Customer < ApplicationRecord
 
     def vehicle_file_params(params, customer, primary)
       {
-        type:         params[HEADER[:type]],
-        name:         params[HEADER[:name]],
-        length:       params[HEADER[:length]],
-        customer_id:  customer.id,
-        primary:      primary
+        type:        params[HEADER[:type]],
+        name:        params[HEADER[:name]],
+        length:      params[HEADER[:length]],
+        customer_id: customer.id,
+        primary:     primary
       }
     end
   end

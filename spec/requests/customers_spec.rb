@@ -16,31 +16,35 @@ describe CustomersController, type: :request do
     context 'with sort_by and order parameters' do
       context 'when sort_by = name' do
         it 'sorts by order = ASC' do
-          get '/customers', params: { sort_by: 'name', order: 'ASC' }
-          expect(response.body).to eq Customer.order('name ASC').to_json
+          get '/customers', params: { sort_by: 'full_name', order: 'ASC' }
+          expect(JSON.parse(response.body).first['full_name']).to eq 'Greta Thunberg'
+          expect(JSON.parse(response.body).second['full_name']).to eq 'Jimmy Buffet'
+          expect(JSON.parse(response.body).third['full_name']).to eq 'Mandip Singh Soin'
+          expect(JSON.parse(response.body).last['full_name']).to eq 'Xiuhtezcatl Martinez'
         end
 
         it 'sorts by order = DESC' do
-          get '/customers', params: { sort_by: 'name', order: 'DESC' }
-          expect(response.body).to eq Customer.order('name DESC').to_json
+          get '/customers', params: { sort_by: 'full_name', order: 'DESC' }
+          expect(JSON.parse(response.body).first['full_name']).to eq 'Xiuhtezcatl Martinez'
+          expect(JSON.parse(response.body).second['full_name']).to eq 'Mandip Singh Soin'
+          expect(JSON.parse(response.body).third['full_name']).to eq 'Jimmy Buffet'
+          expect(JSON.parse(response.body).last['full_name']).to eq 'Greta Thunberg'
         end
       end
       context 'when sort_by = type' do
         it 'sorts by order = ASC' do
-          get '/customers', params: { sort_by: 'type', order: 'ASC' }
-          expect(response.body).to eq Customer
-            .joins(:vehicles)
-            .where('vehicles.primary = true')
-            .order('vehicles.vehicle_type ASC')
-            .to_json
+          get '/customers', params: { sort_by: 'vehicle_type', order: 'ASC' }
+          expect(JSON.parse(response.body).first['vehicle']['type']).to eq 'campervan'
+          expect(JSON.parse(response.body).second['vehicle']['type']).to eq 'motorboat'
+          expect(JSON.parse(response.body).third['vehicle']['type']).to eq 'sailboat'
+          expect(JSON.parse(response.body).last['vehicle']['type']).to eq 'sailboat'
         end
         it 'sorts by order = DESC' do
-          get '/customers', params: { sort_by: 'type', order: 'DESC' }
-          expect(response.body).to eq Customer
-            .joins(:vehicles)
-            .where('vehicles.primary = true')
-            .order('vehicles.vehicle_type DESC')
-            .to_json
+          get '/customers', params: { sort_by: 'vehicle_type', order: 'DESC' }
+          expect(JSON.parse(response.body).first['vehicle']['type']).to eq 'sailboat'
+          expect(JSON.parse(response.body).second['vehicle']['type']).to eq 'sailboat'
+          expect(JSON.parse(response.body).third['vehicle']['type']).to eq 'motorboat'
+          expect(JSON.parse(response.body).last['vehicle']['type']).to eq 'campervan'
         end
       end
     end
@@ -67,7 +71,7 @@ describe CustomersController, type: :request do
           file: fixture_path + '/pipes.txt'
         }
         expect(response.body).to eq Customer.where(
-          email: ['a@adams.com', 'steve@crocodiles.com', 'isatou@recycle.com', 'n.uemura@gmail.com']
+          email: %w[a@adams.com steve@crocodiles.com isatou@recycle.com n.uemura@gmail.com]
         ).to_json
       end
     end
@@ -76,8 +80,7 @@ describe CustomersController, type: :request do
       it 'returns the created customer' do
         post "/customers", params: {
           customer: {
-            first_name: 'Derby',
-            last_name: 'Jones',
+            full_name: 'Derby Jones',
             email: 'derbyjones@nullmailer.com'
           }
         }
@@ -91,22 +94,12 @@ describe CustomersController, type: :request do
     it 'updates the customer' do
       customer = Customer.all.first
       id = customer.id
-      put "/customers/#{id}", params: {
-        customer: {
-          first_name: 'Derby',
-          last_name: 'Dingus'
-        }
-      }
+      put "/customers/#{id}", params: { customer: { full_name: 'Derby Jones' }}
       expect(response.body).to eq customer.reload.to_json
     end
 
     it 'returns an error if id does not exist' do
-      put "/customers/#{invalid_id}", params: {
-        customer: {
-          first_name: 'Derby',
-          last_name: 'Dingus'
-        }
-      }
+      put "/customers/#{invalid_id}", params: { customer: { full_name: 'Derby Dingus' }}
       expect(response.body).to eq "{\"error\":\"Couldn't find Customer with 'id'=#{invalid_id}\"}"
     end
   end

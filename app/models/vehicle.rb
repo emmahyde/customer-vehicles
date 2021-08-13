@@ -1,27 +1,25 @@
 class Vehicle < ApplicationRecord
-  attribute :id, :integer
+  attribute :id,           :integer
   attribute :vehicle_type, :string
-  attribute :name, :string
-  attribute :length, :integer
-  attribute :primary, :boolean
-  attribute :customer_id, :integer
+  attribute :name,         :string
+  attribute :length,       :integer
+  attribute :primary,      :boolean
+  attribute :customer_id,  :integer
 
-  validates :vehicle_type, :name, :length, presence: true
+  alias_attribute :type, :vehicle_type
+  validates  :vehicle_type, :name, :length, :customer_id, presence: true
   belongs_to :customer
+
 
   def attributes
     {
       id: id,
-      type: vehicle_type,
+      type: type,
       name: name,
       length: length,
       created_at: created_at,
       updated_at: updated_at
     }
-  end
-
-  def type
-    vehicle_type
   end
 
   def initialize(params)

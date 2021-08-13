@@ -8,9 +8,8 @@ describe Customer, type: :model do
     context 'when a customer has no vehicles' do
       let(:customer) do
         Customer.create!({
-          first_name: 'Emma',
-          last_name:  'Hyde',
-          email:      'emmajhyde@nullmailer.com'
+          full_name: 'Derby Jones',
+          email:     'derbyjones@nullmailer.com'
         })
       end
 
@@ -18,7 +17,7 @@ describe Customer, type: :model do
         expect(customer.attributes.to_json).to eq(
           JSON.generate({
             id:         customer.id,
-            name:       customer.name,
+            full_name:  customer.name,
             email:      customer.email,
             created_at: formatted_time,
             updated_at: formatted_time,
@@ -31,15 +30,14 @@ describe Customer, type: :model do
     context 'when a customer has at least one vehicle' do
       let(:customer) do
         Customer.create!({
-          first_name: 'Emma',
-          last_name:  'Hyde',
-          email:      'emmajhyde@nullmailer.com'
+          full_name: 'Derby Jones',
+          email:     'derbyjones@nullmailer.com'
         })
       end
       let!(:vehicle_a) do
         Vehicle.create!({
-          type:        'Boat',
-          name:        'S.S. Derby Jones',
+          type:        'steamboat',
+          name:        'St. Derby',
           length:      99,
           customer_id: customer.id,
           primary:     true
@@ -47,7 +45,7 @@ describe Customer, type: :model do
       end
       let!(:vehicle_b) do
         Vehicle.create!({
-          type:        'Motorcycle',
+          type:        'yacht',
           name:        'Big Charlie',
           length:      22,
           customer_id: customer.id
@@ -59,17 +57,17 @@ describe Customer, type: :model do
         expect(customer.attributes.to_json).to eq(
           JSON.generate({
             id:         customer.id,
-            name:       customer.name,
+            full_name:  customer.name,
             email:      customer.email,
             created_at: formatted_time,
             updated_at: formatted_time,
-            vehicle: {
-              id:          vehicle_a.id,
-              type:        vehicle_a.vehicle_type,
-              name:        vehicle_a.name,
-              length:      vehicle_a.length,
-              created_at:  formatted_time,
-              updated_at:  formatted_time,
+            vehicle:    {
+              id:         vehicle_a.id,
+              type:       vehicle_a.vehicle_type,
+              name:       vehicle_a.name,
+              length:     vehicle_a.length,
+              created_at: formatted_time,
+              updated_at: formatted_time,
             }
           })
         )
@@ -78,8 +76,8 @@ describe Customer, type: :model do
   end
 
   describe 'file processing' do
-    let(:commas_file)    { double(tempfile: fixture_path + '/commas.txt') }
-    let(:pipes_file)     { double(tempfile: fixture_path + '/pipes.txt') }
+    let(:commas_file) { double(tempfile: fixture_path + '/commas.txt') }
+    let(:pipes_file) { double(tempfile: fixture_path + '/pipes.txt') }
     let(:malformed_file) { double(tempfile: fixture_path + '/malformed.txt') }
 
     context 'when file is comma separated' do
@@ -143,18 +141,16 @@ describe Customer, type: :model do
     context 'when an email is not unique' do
       before do
         Customer.create!({
-          first_name: 'Emma',
-          last_name:  'Hyde',
-          email:      'emmajhyde@nullmailer.com'
+          full_name: 'Derby Jones',
+          email:     'derbyjones@nullmailer.com'
         })
       end
 
       it 'rejects the customer and raises an error' do
         expect {
           Customer.create!({
-            first_name: 'Emma',
-            last_name:  'Hyde',
-            email:      'emmajhyde@nullmailer.com'
+            full_name: 'Derby Jones',
+            email:     'derbyjones@nullmailer.com'
           })
         }.to raise_error ActiveRecord::RecordInvalid,
           "Validation failed: Email has already been taken"
@@ -166,14 +162,13 @@ describe Customer, type: :model do
     it 'casts first & last name to a single name field' do
       expect {
         Customer.create!({
-          first_name: 'Emma',
-          last_name: 'Hyde',
-          email: 'ehyde@null.com'
+          full_name: 'Derby Jones',
+          email:     'derbyjones@nullmailer.com'
         })
       }.to make_database_queries(
-        matching: /INSERT INTO "customers".*"name",.*/
+        matching: /INSERT INTO "customers".*"first_name",.*"last_name".*/
       )
-      expect(Customer.find_by(email: 'ehyde@null.com').name).to eq 'Emma Hyde'
+      expect(Customer.find_by(email: 'derbyjones@nullmailer.com').name).to eq 'Derby Jones'
     end
   end
 end

@@ -21,6 +21,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem "timecop", "~> 0.9.4"
   gem "db-query-matchers", "~> 0.10.0"
+  gem 'simplecov'
 end
 
 group :development do

@@ -1,32 +1,20 @@
 class CustomersController < ApplicationController
-  SUPPORTED_SORTS = %w[name type]
+  SUPPORTED_SORTS = %w[full_name vehicle_type]
+  CUSTOMER_EXS = [CustomerError]
+  RETURNABLE_EXS = ACTIVE_RECORD_EXS + CUSTOMER_EXS
 
   def index
     sort_params = params.permit(:sort_by, :order)
     sort_by     = sort_params[:sort_by]
-    order       = sort_params[:order]&.upcase
+    order       = sort_params[:order]&.upcase || 'ASC'
 
     if SUPPORTED_SORTS.include?(sort_by)
-      case sort_by
-      when 'name'
-        sort_criteria = [sort_by, order].compact.join(' ')
-        render json: Customer.order(sort_criteria)
-
-      when 'type'
-        sort_criteria = ['vehicles.vehicle_type', order].compact.join(' ')
-        render json: Customer
-         .joins(:vehicles)
-         .where('vehicles.primary = true')
-         .order(sort_criteria)
-
-      else
-        raise CustomerError, 'Input invalid: invalid sort criteria'
-      end
+      validated_sort(order, sort_by)
     else
       render json: Customer.all
     end
 
-  rescue Errors::CustomerError => e
+  rescue *CUSTOMER_EXS => e
     render json: { "error" => e.message }
   end
 
@@ -48,9 +36,7 @@ class CustomersController < ApplicationController
     end
     render json: customers
 
-  rescue ActiveRecord::RecordInvalid => e
-    render json: { "error" => e.message }
-  rescue CustomerError => e
+  rescue *RETURNABLE_EXS => e
     render json: { "error" => e.message }
   end
 
@@ -59,11 +45,7 @@ class CustomersController < ApplicationController
     customer.update!(customer_params)
     render json: customer.reload
 
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { "error" => e.message }
-  rescue ActiveRecord::RecordInvalid => e
-    render json: { "error" => e.message }
-  rescue CustomerError => e
+  rescue *RETURNABLE_EXS => e
     render json: { "error" => e.message }
   end
 
@@ -78,10 +60,29 @@ class CustomersController < ApplicationController
 
   private
 
+  def validated_sort(order, sort_by)
+    case sort_by
+    when 'full_name'
+      sort_criteria = "first_name #{order}, last_name #{order}"
+      render json: Customer.order(sort_criteria)
+
+    when 'vehicle_type'
+      sort_criteria = ['vehicles.vehicle_type', order].compact.join(' ')
+      render json: Customer
+                     .joins(:vehicles)
+                     .where('vehicles.primary = true')
+                     .order(sort_criteria)
+
+    else
+      raise CustomerError, 'Input invalid: invalid sort criteria'
+    end
+  end
+
   def customer_params
     params.require(:customer).permit(
       :first_name,
       :last_name,
+      :full_name,
       :email
     )
   end
