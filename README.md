@@ -1,6 +1,6 @@
 # customer-vehicles
 
-![outdoor.sy](https://github.com/emmahyde/customer-vehicles/actions/workflows/test_build.yml/badge.svg)
+[![outdoor.sy](https://github.com/emmahyde/customer-vehicles/actions/workflows/test_build.yml/badge.svg)](https://github.com/emmahyde/customer-vehicles/actions/workflows/test_build.yml)
 
 ## How-To
 ### Requirements
