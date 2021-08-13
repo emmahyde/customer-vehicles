@@ -197,7 +197,7 @@ DEPENDENCIES
   rspec (~> 3.10.0)
   rspec-rails (~> 5.0.1)
   simplecov (~> 0.21.2)
-  simplecov-shields-badge (~> 0.1.0)
+  simplecov-shields-badge
   spring (~> 2.1.1)
   timecop (~> 0.9.4)
   tzinfo-data
