@@ -68,6 +68,7 @@ describe Customer, type: :model do
               length:     vehicle_a.length,
               created_at: formatted_time,
               updated_at: formatted_time,
+              customer_id: customer.id
             }
           })
         )

@@ -18,7 +18,8 @@ class Vehicle < ApplicationRecord
       name: name,
       length: length,
       created_at: created_at,
-      updated_at: updated_at
+      updated_at: updated_at,
+      customer_id: customer_id
     }
   end
 

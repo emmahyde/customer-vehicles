@@ -2,11 +2,11 @@ class Customer < ApplicationRecord
   attribute :id,         :integer
   attribute :first_name, :string
   attribute :last_name,  :string
-  attribute :name,       :string
+  attribute :full_name,  :string
   attribute :email,      :string
 
   validates :email, presence: true, uniqueness: true
-  validates :first_name, :last_name, presence: true
+  validate  :name_is_present
   has_many  :vehicles
   has_one   :vehicle, -> { where(primary: true) }
 
@@ -28,6 +28,12 @@ class Customer < ApplicationRecord
   def full_name=(value)
     params = value.split(' ')
     assign_attributes first_name: params[0], last_name: params[1]
+  end
+
+  def name_is_present
+    unless (first_name && last_name) || full_name
+      errors.add(base: 'Validation failed: must have both first & last OR full_name present')
+    end
   end
 
   alias :name :full_name

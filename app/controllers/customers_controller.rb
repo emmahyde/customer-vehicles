@@ -69,9 +69,9 @@ class CustomersController < ApplicationController
     when 'vehicle_type'
       sort_criteria = ['vehicles.vehicle_type', order].compact.join(' ')
       render json: Customer
-                     .joins(:vehicles)
-                     .where('vehicles.primary = true')
-                     .order(sort_criteria)
+       .joins(:vehicles)
+       .where('vehicles.primary = true')
+       .order(sort_criteria)
 
     else
       raise CustomerError, 'Input invalid: invalid sort criteria'
