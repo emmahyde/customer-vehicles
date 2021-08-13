@@ -43,7 +43,7 @@ There are some clear opportunities for improvement here.
 - The Vehicle association makes DB queries that could be removed if a cache layer was implemented, or we could eager-load the associations in.
 - More sort options for Customers, sort options at all for Vehicles.
 - Expand the primary-vehicle functionality: right now the primary vehicle is only ever set the first time a vehicle is created for a customer. The intention here is to leave it very easily extendable, and the best way to do that is to support an association right off the bat, making some progress towards decoupling Customers and Vehicles.
-    - Add more fine-grain control around the response to the client, i.e. list all vehicles, not just primary. The primary is set in this regard in order to more easily implement the initial requirement of sort on vehicle_type, but leaves the door open to extendability down the line.
+    - Add more fine-grain control around the response to the client, i.e. list all vehicles, not just primary. The "primary vehicle" for a customer is necessary in order to implement the initial requirement of sort on vehicle_type (where some vehicle must be the default), but leaves the door open to extendability down the line.
 - Better deletion practices: As of right now we could end up with bad data since we are not explicitly deleting associations upon destroying the parent Customer.
 - It isn't necessarily DRY, it could be better abstracted, but for ease of digestion I wanted to leave it pretty friendly.
 - Further test cases for edge cases and error handling, but as of right now it has 98.26% test coverage.
