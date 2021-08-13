@@ -1,7 +1,7 @@
 # customer-vehicles
 
-[![Test Build Run Badge](https://github.com/emmahyde/customer-vehicles/actions/workflows/test_build.yml/badge.svg)](https://github.com/emmahyde/customer-vehicles/actions/workflows/test_build.yml)
-[![Coverage Badge](https://emmahyde.github.io/customer-vehicles/badge.svg)](https://emmahyde.github.io/customer-vehicles)
+[![Docker Test Build Run](https://github.com/emmahyde/customer-vehicles/actions/workflows/test_build.yml/badge.svg)](https://github.com/emmahyde/customer-vehicles/actions/workflows/test_build.yml)
+[![Coverage GitHub Page](https://emmahyde.github.io/customer-vehicles/badge.svg)](https://emmahyde.github.io/customer-vehicles)
 
 ## How-To
 ### Asciinema Walkthrough
