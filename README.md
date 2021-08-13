@@ -1,5 +1,7 @@
 # customer-vehicles
 
+![outdoor.sy](https://github.com/emmahyde/customer-vehicles/actions/workflows/test_build.yml/badge.svg)
+
 ## How-To
 ### Requirements
 You will need:
