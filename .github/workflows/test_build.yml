@@ -1,0 +1,31 @@
+name: Docker Image Test Run
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build the stack
+        run: docker-compose -f "docker-compose.yml" build
+
+      - name: Run DB setup
+        run: docker-compose run web rails db:setup
+
+      - name: Run Tests
+        run: docker-compose run web rspec
+
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d
+
+      - name: Stop containers
+        if: always()
+        run: docker-compose -f "docker-compose.yml" down
