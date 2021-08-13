@@ -47,3 +47,4 @@ There are some clear opportunities for improvement here.
 - Better deletion practices: As of right now we could end up with bad data since we are not explicitly deleting associations upon destroying the parent Customer.
 - It isn't necessarily DRY, it could be better abstracted, but for ease of digestion I wanted to leave it pretty friendly.
 - Further test cases for edge cases and error handling, but as of right now it has 98.26% test coverage.
+<img width="1618" alt="Screen Shot 2021-08-13 at 1 57 40 PM" src="https://user-images.githubusercontent.com/8183738/129400856-8d5c4590-a53b-478a-92f3-57255a9953cc.png">
