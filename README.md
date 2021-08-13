@@ -2,6 +2,8 @@
 
 [![Docker Test Build Run](https://github.com/emmahyde/customer-vehicles/actions/workflows/test_build.yml/badge.svg)](https://github.com/emmahyde/customer-vehicles/actions/workflows/test_build.yml)
 [![Coverage GitHub Page](https://raw.githubusercontent.com/emmahyde/customer-vehicles/a2cca23a02a7761f6bcc3154775de85f399ba998/badge.svg)](https://emmahyde.github.io/customer-vehicles)
+![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/emmahyde/customer-vehicles)
+![Github Repo Size](https://img.shields.io/github/repo-size/emmahyde/customer-vehicles)
 
 ## How-To
 ### Asciinema Walkthrough
