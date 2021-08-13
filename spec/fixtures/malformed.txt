@@ -1,0 +1,2 @@
+Malformed|Content
+Valid|Customer|valid@nullmailer.com|V_Type|V Name|0 ft

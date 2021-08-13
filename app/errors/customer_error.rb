@@ -1,0 +1,1 @@
+class CustomerError < StandardError; end
